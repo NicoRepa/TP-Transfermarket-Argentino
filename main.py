@@ -1,5 +1,5 @@
-from clubes import *
-
+from clubes import cargar_clubes
+from jugadores import cargar_jugadores
 #crud jugadores
 def crear_jugador():
     pass
@@ -234,3 +234,17 @@ def crear_matriz_jugadores():
     pass
 def mostrar_matrices():
     pass 
+
+def main():
+    """
+    Inicializa los datos principales del programa.
+
+    Carga los clubes y jugadores usando sus respectivas funciones
+    y almacena los datos en variables locales para luego utilizarlos
+    en las distintas funcionalidades del sistema.
+    """
+    liga_argentina, primera_nacional = cargar_clubes()
+    jugadores = cargar_jugadores()
+
+  
+main()
