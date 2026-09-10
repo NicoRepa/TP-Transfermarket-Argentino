@@ -265,13 +265,13 @@ def calcular_promedio_edad_por_liga(lista_jugadores, nombre_categoria):
     ]
 
     if not jugadores_filtrados:
-        print(f"\n❌ No se encontraron jugadores en la categoría '{nombre_categoria}'.\n")
+        print(f"\n No se encontraron jugadores en la categoría '{nombre_categoria}'.\n")
         return 0.0
 
     suma_edades = sum(j.get("edad", 0) for j in jugadores_filtrados)
     promedio = suma_edades / len(jugadores_filtrados)
 
-    print(f"\n📊 Promedio de edad en {nombre_categoria.title()}: {round(promedio, 2)} años\n")
+    print(f"\n Promedio de edad en {nombre_categoria.title()}: {round(promedio, 2)} años\n")
     return round(promedio, 2)
 
 
@@ -285,7 +285,7 @@ def calcular_promedio_edad_por_club(lista_jugadores, nombre_club):
     nombre_club_limpio = nombre_club.strip().lower()
 
     if not nombre_club_limpio:
-        print("\n❌ No ingresó ningún nombre de club.\n")
+        print("\n No ingresó ningún nombre de club.\n")
         return 0.0
 
     # Filtramos usando la clave 'club_actual'
@@ -295,14 +295,14 @@ def calcular_promedio_edad_por_club(lista_jugadores, nombre_club):
     ]
 
     if not plantel:
-        print(f"\n❌ No se encontraron jugadores para el club '{nombre_club}'.\n")
+        print(f"\n No se encontraron jugadores para el club '{nombre_club}'.\n")
         return 0.0
 
     suma_edades = sum(j.get("edad", 0) for j in plantel)
     promedio = suma_edades / len(plantel)
 
     nombre_club_oficial = plantel[0].get("club_actual", nombre_club)
-    print(f"\n📊 Promedio de edad del plantel de '{nombre_club_oficial}': {round(promedio, 2)} años\n")
+    print(f"\n Promedio de edad del plantel de '{nombre_club_oficial}': {round(promedio, 2)} años\n")
     return round(promedio, 2)
 
 
@@ -333,12 +333,12 @@ if __name__ == "__main__":
             calcular_promedio_edad_por_club(jugadores_totales, club)
 
         else:
-            print("\n❌ Opción no válida.\n")
+            print("\n Opción no válida.\n")
 
         # Pregunta si desea seguir consultando
         continuar = input("¿Desea realizar otra consulta de promedios? (s/n): ").strip()
 
-    print("\n👋 ¡Gracias por utilizar la consulta de promedios!")
+    print("\n ¡Gracias por utilizar la consulta de promedios!")
 def calcular_valor_por_club():
     pass
 def calcular_goleador():
