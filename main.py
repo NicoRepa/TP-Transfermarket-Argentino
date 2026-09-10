@@ -1,8 +1,4 @@
-#carga e inicializacion de datos en memoria
-def inicializar_clubes():
-    pass
-def inicializar_jugadores():
-    pass
+from clubes import *
 
 #crud jugadores
 def crear_jugador():
