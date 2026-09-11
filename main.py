@@ -1,21 +1,21 @@
 from clubes import cargar_clubes
 from jugadores import cargar_jugadores
-liga_argentina, primera_nacional = cargar_clubes()
+
 #crud jugadores
-def crear_jugador():
+def crear_jugador(jugadores, liga_argentina, primera_nacional):
     pass
-def editar_jugador():
+def editar_jugador(jugadores):
     pass
-def eliminar_jugador():
+def eliminar_jugador(jugadores):
     pass
-def buscar_jugador():
+def buscar_jugador(jugadores):
     pass
-def listar_jugadores():
+def listar_jugadores(jugadores):
     pass
 
 # crud clubes
 
-def crear_club():
+def crear_club(liga_argentina, primera_nacional):
     """Registra un nuevo club en la división seleccionada."""
 
     nombre = input("Ingrese el nombre del club: ")
@@ -35,13 +35,13 @@ def crear_club():
             return
 
     division = input(
-        "Ingrese la división (1: Primera División / 2: Primera Nacional): "
+        "Ingrese la división (1: Liga Profesional / 2: Primera Nacional): "
     )
 
     while division != "1" and division != "2":
         print("División inválida. Ingrese 1 o 2.")
         division = input(
-            "Ingrese la división (1: Primera División / 2: Primera Nacional): "
+            "Ingrese la división (1: Liga Profesional / 2: Primera Nacional): "
         )
 
     if division == "1":
@@ -67,108 +67,93 @@ def crear_club():
     print("Club creado correctamente.")
 
 
-def editar_club():
+def editar_club(liga_argentina, primera_nacional):
     """Permite modificar los datos de un club existente."""
+
+    division = input(
+        "Ingrese la división (1: Liga Profesional / 2: Primera Nacional): "
+    )
+
+    while division != "1" and division != "2":
+        print("División inválida.")
+        division = input(
+            "Ingrese la división (1: Liga Profesional / 2: Primera Nacional): "
+        )
+
+    if division == "1":
+        lista = liga_argentina
+    else:
+        lista = primera_nacional
 
     id_buscar = input("Ingrese el ID del club que desea editar: ")
 
-    todos_los_clubes = liga_argentina + primera_nacional
-
     encontrado = False
 
-    for club in todos_los_clubes:
+    for club in lista:
         if str(club["id"]) == id_buscar:
             encontrado = True
 
-            print("\nClub encontrado:", club["club"])
-
-            print("Nombre:", club["club"])
-            print("Valor del plantel:", club["valor_plantel_millones_eur"])
-            print("Títulos nacionales:", club["titulos_nacionales"])
-            print("Títulos internacionales:", club["titulos_internacionales"])
-            print("Copa Libertadores:", club["copa_libertadores"])
-            print("Copa Sudamericana:", club["copa_sudamericana"])
-            print(
-                "Mundial de Clubes/Intercontinental:",
-                club["mundial_de_clubes_intercontinental"]
-            )
-            print("Títulos totales:", club["titulos_totales"])
-            print("Descensos:", club["descensos"])
+            print("Club encontrado:", club["club"])
 
             opcion = input("""
-            ¿Qué dato desea modificar?
-            1. Nombre
-            2. Valor del plantel
-            3. Títulos nacionales
-            4. Títulos internacionales
-            5. Copa Libertadores
-            6. Copa Sudamericana
-            7. Mundial de Clubes/Intercontinental
-            8. Títulos totales
-            9. Descensos
-            Ingrese una opción: """)
-
-            while opcion not in ["1", "2", "3", "4", "5", "6", "7", "8", "9"]:
-                print("Opción inválida. Ingrese un número del 1 al 9.")
-
-                opcion = input("""
-                ¿Qué dato desea modificar?
-                1. Nombre
-                2. Valor del plantel
-                3. Títulos nacionales
-                4. Títulos internacionales
-                5. Copa Libertadores
-                6. Copa Sudamericana
-                7. Mundial de Clubes/Intercontinental
-                8. Títulos totales
-                9. Descensos
-                Ingrese una opción: """)
+¿Qué dato desea modificar?
+1. Nombre
+2. Valor del plantel
+3. Títulos nacionales
+4. Títulos internacionales
+5. Copa Libertadores
+6. Copa Sudamericana
+7. Mundial de Clubes/Intercontinental
+8. Títulos totales
+9. Descensos
+Ingrese una opción: """)
 
             if opcion == "1":
-                nuevo_nombre = input("Ingrese el nuevo nombre: ")
-                club["club"] = nuevo_nombre
+                club["club"] = input("Ingrese el nuevo nombre: ")
 
             elif opcion == "2":
-                nuevo_valor = input("Ingrese el nuevo valor del plantel: ")
-                club["valor_plantel_millones_eur"] = nuevo_valor
+                club["valor_plantel_millones_eur"] = float(
+                    input("Ingrese el nuevo valor del plantel: ")
+                )
 
             elif opcion == "3":
-                nuevos_titulos = input("Ingrese los nuevos títulos nacionales: ")
-                club["titulos_nacionales"] = nuevos_titulos
+                club["titulos_nacionales"] = int(
+                    input("Ingrese los nuevos títulos nacionales: ")
+                )
 
             elif opcion == "4":
-                nuevos_titulos = input("Ingrese los nuevos títulos internacionales: ")
-                club["titulos_internacionales"] = nuevos_titulos
+                club["titulos_internacionales"] = int(
+                    input("Ingrese los nuevos títulos internacionales: ")
+                )
 
             elif opcion == "5":
-                nuevas_libertadores = input(
-                    "Ingrese la nueva cantidad de Copas Libertadores: "
+                club["copa_libertadores"] = int(
+                    input("Ingrese la cantidad de Copas Libertadores: ")
                 )
-                club["copa_libertadores"] = nuevas_libertadores
 
             elif opcion == "6":
-                nuevas_sudamericanas = input(
-                    "Ingrese la nueva cantidad de Copas Sudamericanas: "
+                club["copa_sudamericana"] = int(
+                    input("Ingrese la cantidad de Copas Sudamericanas: ")
                 )
-                club["copa_sudamericana"] = nuevas_sudamericanas
 
             elif opcion == "7":
-                nuevo_mundial = input(
-                    "Ingrese la nueva cantidad de Mundiales de Clubes/Intercontinentales: "
+                club["mundial_de_clubes_intercontinental"] = int(
+                    input("Ingrese la cantidad de Mundiales/Intercontinentales: ")
                 )
-                club["mundial_de_clubes_intercontinental"] = nuevo_mundial
 
             elif opcion == "8":
-                nuevos_totales = input(
-                    "Ingrese la nueva cantidad de títulos totales: "
+                club["titulos_totales"] = int(
+                    input("Ingrese la cantidad de títulos totales: ")
                 )
-                club["titulos_totales"] = nuevos_totales
 
             elif opcion == "9":
-                nuevos_descensos = input(
-                    "Ingrese la nueva cantidad de descensos: "
+                club["descensos"] = int(
+                    input("Ingrese la cantidad de descensos: ")
                 )
-                club["descensos"] = nuevos_descensos
+
+            else:
+                print("Opción inválida.")
+                return
 
             print("Club modificado correctamente.")
             break
@@ -176,26 +161,35 @@ def editar_club():
     if encontrado == False:
         print("No se encontró ningún club con ese ID.")
 
-
-def eliminar_club():
+def eliminar_club(liga_argentina, primera_nacional):
     """Elimina un club existente de la lista correspondiente."""
+
+    division = input(
+        "Ingrese la división (1: Liga Profesional / 2: Primera Nacional): "
+    )
+
+    while division != "1" and division != "2":
+        print("División inválida.")
+        division = input(
+            "Ingrese la división (1: Liga Profesional / 2: Primera Nacional): "
+        )
+
+    if division == "1":
+        lista = liga_argentina
+    else:
+        lista = primera_nacional
 
     id_buscar = input("Ingrese el ID del club que desea eliminar: ")
 
-    todos_los_clubes = liga_argentina + primera_nacional
-
     encontrado = False
 
-    for club in todos_los_clubes:
+    for club in lista:
         if str(club["id"]) == id_buscar:
             encontrado = True
 
             print("Club encontrado:", club["club"])
 
-            if club in liga_argentina:
-                liga_argentina.remove(club)
-            else:
-                primera_nacional.remove(club)
+            lista.remove(club)
 
             print("Club eliminado correctamente.")
             break
@@ -203,8 +197,7 @@ def eliminar_club():
     if encontrado == False:
         print("No se encontró ningún club con ese ID.")
 
-
-def buscar_club():
+def buscar_club(liga_argentina, primera_nacional):
     """Busca clubes por nombre utilizando coincidencias parciales."""
 
     termino = input("Ingrese el nombre del club que desea buscar: ")
@@ -225,10 +218,10 @@ def buscar_club():
         print("No se encontró ningún club.")
 
 
-def listar_clubes():
-    """Muestra por consola todos los clubes de Primera División y Primera Nacional."""
+def listar_clubes(liga_argentina, primera_nacional):
+    """Muestra por consola todos los clubes de Liga Profesional y Primera Nacional."""
 
-    print("=== PRIMERA DIVISIÓN ===")
+    print("=== LIGA PROFESIONAL ===")
 
     for club in liga_argentina:
         print(club["id"], "-", club["club"])
@@ -239,15 +232,14 @@ def listar_clubes():
         print(club["id"], "-", club["club"])
 
 #filtros
-def filtrar_jugadores_por_edad():
+def filtrar_jugadores_por_edad(jugadores):
     pass
-def filtrar_jugadores_por_club():
+def filtrar_jugadores_por_club(jugadores):
     pass
-def filtrar_jugadores_por_valor():
+def filtrar_jugadores_por_valor(jugadores):
     pass
 
 #estadisticas
-from jugadores import cargar_jugadores
 
 def calcular_promedio_edad_por_liga(lista_jugadores, nombre_categoria):
     """
@@ -305,40 +297,6 @@ def calcular_promedio_edad_por_club(lista_jugadores, nombre_club):
     print(f"\n Promedio de edad del plantel de '{nombre_club_oficial}': {round(promedio, 2)} años\n")
     return round(promedio, 2)
 
-
-# --- BUCLE PRINCIPAL DE CONSULTA DE PROMEDIOS ---
-if __name__ == "__main__":
-    # Carga inicial de datos
-    jugadores_totales = cargar_jugadores()
-    
-    continuar = "s"
-
-    while continuar.lower() == "s":
-        print("\n" + "="*45)
-        print("      CONSULTA DE PROMEDIOS DE EDAD")
-        print("="*45)
-        print(" [1] Promedio por Categoría / Liga")
-        print(" [2] Promedio por Club")
-        print("="*45)
-
-        opcion = input("Elija una opción (1 o 2): ").strip()
-
-        if opcion == "1":
-            print("\nCategorías disponibles: 'Liga Profesional' o 'Primera Nacional'")
-            cat = input("Ingrese la categoría a consultar: ").strip()
-            calcular_promedio_edad_por_liga(jugadores_totales, cat)
-
-        elif opcion == "2":
-            club = input("\nIngrese el nombre del club (ej: 'Boca', 'River', 'Aldosivi'): ").strip()
-            calcular_promedio_edad_por_club(jugadores_totales, club)
-
-        else:
-            print("\n Opción no válida.\n")
-
-        # Pregunta si desea seguir consultando
-        continuar = input("¿Desea realizar otra consulta de promedios? (s/n): ").strip()
-
-    print("\n ¡Gracias por utilizar la consulta de promedios!")
 def calcular_valor_por_club():
     pass
 def calcular_goleador():
