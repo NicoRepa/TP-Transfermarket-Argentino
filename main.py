@@ -239,33 +239,26 @@ def filtrar_jugadores_por_valor(jugadores):
 
 #estadisticas
 
-def calcular_promedio_edad_por_liga(lista_jugadores, nombre_categoria):
-    """
-    Calcula el promedio de edad de todos los jugadores según su categoría.
-    Parámetros:
-        lista_jugadores (list): Lista de diccionarios con la información de los futbolistas.
-        nombre_categoria (str): 'Liga Profesional' o 'Primera Nacional'.
-    """
-    nombre_categoria_limpio = nombre_categoria.strip().lower()
+def calcular_promedio_edad_por_categoria(lista_jugadores, nombre_categoria):
+    """ Funcion para calcular promedio de edad por categoria elegida"""
+    contador_edad = 0
+    cantidad_jugadores = 0
+    nombre_categoria = nombre_categoria.strip().lower()
+    nombre_categoria_real = ""
+    for jugador in lista_jugadores:  # 'jugador' es directamente el diccionario
+        categoria = jugador["categoria"].lower()
+        
+        if nombre_categoria in categoria:
+            contador_edad = contador_edad + jugador["edad"]
+            cantidad_jugadores = cantidad_jugadores + 1
+            nombre_categoria_real = categoria
 
-    # Filtramos comparando con la clave 'categoria'
-    jugadores_filtrados = [
-        j for j in lista_jugadores 
-        if j.get("categoria", "").strip().lower() == nombre_categoria_limpio
-    ]
-
-    if not jugadores_filtrados:
-        print(f"\n No se encontraron jugadores en la categoría '{nombre_categoria}'.\n")
-        return 0.0
-
-    suma_edades = sum(j.get("edad", 0) for j in jugadores_filtrados)
-    promedio = suma_edades / len(jugadores_filtrados)
-
-    print(f"\n Promedio de edad en {nombre_categoria.title()}: {round(promedio, 2)} años\n")
-    return round(promedio, 2)
-
+    promedio = contador_edad / cantidad_jugadores
+    print(f"{nombre_categoria_real} tiene promedio de edad: {promedio}")
+    return promedio 
 
 def calcular_promedio_edad_por_club(lista_jugadores, nombre_club):
+    """ Funcion para calcular promedio de edad por club elegido"""
     contador_edad = 0
     cantidad_jugadores = 0
     nombre_club = nombre_club.strip().lower()
@@ -300,7 +293,7 @@ def menu_promedios(jugadores):
         if opcion == 1:
             print("\nCategorías disponibles: 'Liga Profesional' o 'Primera Nacional'")
             cat = input("Ingrese la categoría a consultar: ").strip()
-            calcular_promedio_edad_por_liga(jugadores, cat)
+            calcular_promedio_edad_por_categoria(jugadores, cat)
         elif opcion == 2:
             club = input("\nIngrese el nombre del club (ej: 'Boca', 'River', 'Aldosivi'): ").strip()
             calcular_promedio_edad_por_club(jugadores, club)
