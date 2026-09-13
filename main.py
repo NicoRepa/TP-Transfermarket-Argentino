@@ -66,7 +66,6 @@ def crear_club(liga_argentina, primera_nacional):
 
     print("Club creado correctamente.")
 
-
 def editar_club(liga_argentina, primera_nacional):
     """Permite modificar los datos de un club existente."""
 
@@ -217,7 +216,6 @@ def buscar_club(liga_argentina, primera_nacional):
     if encontrado == False:
         print("No se encontró ningún club.")
 
-
 def listar_clubes(liga_argentina, primera_nacional):
     """Muestra por consola todos los clubes de Liga Profesional y Primera Nacional."""
 
@@ -268,34 +266,21 @@ def calcular_promedio_edad_por_liga(lista_jugadores, nombre_categoria):
 
 
 def calcular_promedio_edad_por_club(lista_jugadores, nombre_club):
-    """
-    Calcula el promedio de edad de un plantel según el nombre del club.
-    Parámetros:
-        lista_jugadores (list): Lista de diccionarios con los futbolistas.
-        nombre_club (str): Nombre completo o parcial del club a consultar.
-    """
-    nombre_club_limpio = nombre_club.strip().lower()
+    contador_edad = 0
+    cantidad_jugadores = 0
+    nombre_club = nombre_club.strip().lower()
+    nombre_club_real = ""
+    for jugador in lista_jugadores:  # 'jugador' es directamente el diccionario
+        club_actual = jugador["club_actual"].lower()
+        
+        if nombre_club in club_actual:
+            contador_edad = contador_edad + jugador["edad"]
+            cantidad_jugadores = cantidad_jugadores + 1
+            nombre_club_real = club_actual
 
-    if not nombre_club_limpio:
-        print("\n No ingresó ningún nombre de club.\n")
-        return 0.0
-
-    # Filtramos usando la clave 'club_actual'
-    plantel = [
-        j for j in lista_jugadores 
-        if nombre_club_limpio in j.get("club_actual", "").lower()
-    ]
-
-    if not plantel:
-        print(f"\n No se encontraron jugadores para el club '{nombre_club}'.\n")
-        return 0.0
-
-    suma_edades = sum(j.get("edad", 0) for j in plantel)
-    promedio = suma_edades / len(plantel)
-
-    nombre_club_oficial = plantel[0].get("club_actual", nombre_club)
-    print(f"\n Promedio de edad del plantel de '{nombre_club_oficial}': {round(promedio, 2)} años\n")
-    return round(promedio, 2)
+    promedio = contador_edad / cantidad_jugadores
+    print(f"{nombre_club_real} tiene promedio de edad: {promedio}")
+    return promedio 
 
 # Menu de consulta para promedios
 def menu_promedios(jugadores):
