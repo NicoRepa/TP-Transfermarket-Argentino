@@ -297,6 +297,36 @@ def calcular_promedio_edad_por_club(lista_jugadores, nombre_club):
     print(f"\n Promedio de edad del plantel de '{nombre_club_oficial}': {round(promedio, 2)} años\n")
     return round(promedio, 2)
 
+# Menu de consulta para promedios
+def menu_promedios(jugadores):
+    """Trae menu para hacer consultas de los promedios"""
+    continuar = True
+    while continuar == True:
+        print("="*45)
+        print("      CONSULTA DE PROMEDIOS DE EDAD")
+        print("="*45)
+        print(" [0] Salir del menu")
+        print(" [1] Promedio por Categoría / Liga")
+        print(" [2] Promedio por Club")
+        print("="*45)
+
+        opcion = int(input("Elija una opción segun su numero: "))
+
+        if opcion == 1:
+            print("\nCategorías disponibles: 'Liga Profesional' o 'Primera Nacional'")
+            cat = input("Ingrese la categoría a consultar: ").strip()
+            calcular_promedio_edad_por_liga(jugadores, cat)
+        elif opcion == 2:
+            club = input("\nIngrese el nombre del club (ej: 'Boca', 'River', 'Aldosivi'): ").strip()
+            calcular_promedio_edad_por_club(jugadores, club)
+        elif opcion == 0:
+            continuar = False
+        else:
+            print("\n Opción no válida.\n")
+
+    print("\n ¡Gracias por utilizar la consulta de promedios!")
+
+
 def calcular_valor_por_club():
     pass
 def calcular_goleador():
@@ -320,6 +350,17 @@ def main():
     """
     liga_argentina, primera_nacional = cargar_clubes()
     jugadores = cargar_jugadores()
-
+    aux = True
+    while aux == True:
+        print("ingrese una opcion del menu: \n")
+        print("[0] salir del programa \n")
+        print("[1] ir al menu de promedios \n")
+        opcion = int(input("ingrese el numero de donde desea acceder: "))
+        if opcion == 1:
+            menu_promedios(jugadores)
+        elif opcion == 0:
+            aux = False
+        else:
+            print("ingrese una opcion correcta")
   
 main()
