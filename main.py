@@ -1,4 +1,4 @@
-from clubes import cargar_clubes
+from clubes import cargar_clubes_liga_arg, cargar_clubes_primera_nacional
 from jugadores import cargar_jugadores
 
 #crud jugadores
@@ -9,8 +9,8 @@ def crear_jugador(jugadores, liga_argentina, primera_nacional):
     if nombre_jugador == "":
         print("el nombre no puede estar vacio.")
     edad = int(input("ingrese edad del jugador: "))
-    if edad <=16:
-        print("el jugador es muy joven para anotarlo.")
+    if edad < 15 or edad > 45:
+        print("La edad debe ser mayor a 15 y menor a 45.")
     posicion = input("ingrese la posicion donde juega: ")
     club_actual = input("ingrese el club donde esta jugando: ")
     valor_mercado = float(input("ingrese el valor del jugador: "))
@@ -70,16 +70,14 @@ def editar_jugador(jugadores, liga_argentina, primera_nacional):
     elif opcion == "2":
         edad = int(input("Ingrese la nueva edad: "))
 
-        if edad <= 16:
-            print("La edad debe ser mayor a 16.")
-            return
+        if edad < 15 or edad > 45:
+            print("La edad debe ser mayor a 15 y menor a 45.")
+        
 
         jugador_encontrado["edad"] = edad
 
     elif opcion == "3":
-        jugador_encontrado["posicion"] = input(
-            "Ingrese la nueva posición: "
-        )
+        jugador_encontrado["posicion"] = input("Ingrese la nueva posición: ")
 
     elif opcion == "4":
         club_ingresado = input("Ingrese el nuevo club: ").strip()
@@ -971,7 +969,8 @@ def main():
     en las distintas funcionalidades del sistema.
     """
 
-    liga_argentina, primera_nacional = cargar_clubes()
+    primera_nacional = cargar_clubes_primera_nacional()
+    liga_argentina = cargar_clubes_liga_arg()
     jugadores = cargar_jugadores()
 
     aux = True

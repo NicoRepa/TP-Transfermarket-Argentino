@@ -1,4 +1,4 @@
-def cargar_clubes():
+def cargar_clubes_liga_arg():
   """
     Carga la información inicial de los clubes de la Liga Profesional
     y de la Primera Nacional.
@@ -372,6 +372,16 @@ def cargar_clubes():
     }
   ]
 
+  return liga_argentina
+
+def cargar_clubes_primera_nacional():
+  """
+    Carga la información inicial de los clubes de la Liga Profesional
+    y de la Primera Nacional.
+
+    Devuelve:
+        primera_nacional: lista de diccionarios con los clubes de Primera Nacional.
+  """
   primera_nacional = [
     {
       "id": 1,
@@ -807,5 +817,4 @@ def cargar_clubes():
     }
   ]
 
-
-  return liga_argentina, primera_nacional
+  return primera_nacional
