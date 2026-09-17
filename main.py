@@ -839,15 +839,98 @@ def menu_estadisticas(jugadores):
     print("\nVolviendo al menu principal")
 
 #matrices
-def crear_matriz_planteles():
-    pass
-def crear_matriz_jugadores():
-    pass
-def mostrar_matrices():
-    pass 
+
+def crear_matriz_planteles(jugadores):
+    """Crea una matriz con los jugadores de un club"""
+
+    club_buscado = input(
+        "Ingrese el nombre del club que desea consultar: "
+    ).lower()
+
+    matriz = []
+
+    matriz.append([
+        "Nombre",
+        "Posicion",
+        "Edad",
+        "Valor de Mercado",
+        "Goles"
+    ])
+
+    for jugador in jugadores:
+        if club_buscado in jugador["club_actual"].lower():
+
+            fila = [
+                jugador["nombre"],
+                jugador["posicion"],
+                jugador["edad"],
+                jugador["valor_mercado"],
+                jugador["goles"]
+            ]
+
+            matriz.append(fila)
+
+    return matriz
+
+
+def crear_matriz_jugadores(jugadores):
+    """Crea una matriz con todos los jugadores de una liga"""
+
+    print("1. Liga Profesional")
+    print("2. Primera Nacional")
+
+    opcion = int(input("Ingrese la liga que desea consultar: "))
+
+    if opcion == 1:
+        categoria_buscada = "liga profesional"
+
+    elif opcion == 2:
+        categoria_buscada = "primera nacional"
+
+    else:
+        print("Opcion incorrecta")
+        return []
+
+    matriz = []
+
+    matriz.append([
+        "Nombre",
+        "Club",
+        "Posicion",
+        "Edad",
+        "Valor de Mercado",
+        "Goles"
+    ])
+
+    for jugador in jugadores:
+        if jugador["categoria"].lower() == categoria_buscada:
+
+            fila = [
+                jugador["nombre"],
+                jugador["club_actual"],
+                jugador["posicion"],
+                jugador["edad"],
+                jugador["valor_mercado"],
+                jugador["goles"]
+            ]
+
+            matriz.append(fila)
+
+    return matriz
+
+
+def mostrar_matrices(matriz):
+    """Muestra una matriz por pantalla"""
+
+    for fila in matriz:
+
+        for elemento in fila:
+            print(elemento, end=" | ")
+
+        print()
 
 # Menu de matrices
-def menu_matrices(jugadores, liga_argentina, primera_nacional):
+def menu_matrices(jugadores):
     """Menu para mostrar las matrices"""
 
     continuar = True
@@ -857,8 +940,8 @@ def menu_matrices(jugadores, liga_argentina, primera_nacional):
         print("              MENU MATRICES")
         print("="*45)
         print("[0] Salir del menu")
-        print("[1] Mostrar matriz de jugadores")
-        print("[2] Mostrar matriz de planteles")
+        print("[1] Mostrar jugadores por liga")
+        print("[2] Mostrar plantel de un club")
         print("="*45)
 
         opcion = int(input("Elija una opción segun su numero: "))
@@ -868,10 +951,7 @@ def menu_matrices(jugadores, liga_argentina, primera_nacional):
             mostrar_matrices(matriz)
 
         elif opcion == 2:
-            matriz = crear_matriz_planteles(
-                liga_argentina,
-                primera_nacional
-            )
+            matriz = crear_matriz_planteles(jugadores)
             mostrar_matrices(matriz)
 
         elif opcion == 0:
@@ -928,9 +1008,7 @@ def main():
 
         elif opcion == 5:
             menu_matrices(
-                jugadores,
-                liga_argentina,
-                primera_nacional
+                jugadores
             )
 
         elif opcion == 0:
