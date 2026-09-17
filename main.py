@@ -122,11 +122,49 @@ def editar_jugador(jugadores, liga_argentina, primera_nacional):
     print("Jugador modificado correctamente")
 
 def eliminar_jugador(jugadores):
-    pass
+    """Elimina un jugador por su nombre."""
+    nombre_buscar = input("Ingrese el nombre del jugador que desea eliminar: ").lower()
+    encontrado = False
+
+    for jugador in jugadores:
+        if jugador["nombre"].lower() == nombre_buscar:
+            print(f"Jugador encontrado: {jugador['nombre']}")
+            jugadores.remove(jugador)
+            print("Jugador eliminado correctamente.")
+            encontrado = True
+
+    if not encontrado:
+        print("No se encontró ningún jugador con ese nombre.")
 
 def buscar_jugador(jugadores):
+    """Busca un jugador por nombre y muestra sus datos."""
+    nombre_buscar = input("Ingrese el nombre del jugador a buscar: ").strip().lower()
+    encontrado = False
 
+    for jugador in jugadores:
+        # Usamos 'in' para coincidencia parcial (o '==' si piden nombre exacto)
+        if nombre_buscar in jugador["nombre"].lower():
+            print("\n--- Jugador encontrado ---")
+            print(f"ID: {jugador['id']}")
+            print(f"Nombre: {jugador['nombre']}")
+            print(f"Edad: {jugador['edad']}")
+            print(f"Posición: {jugador['posicion']}")
+            print(f"Club: {jugador['club_actual']}")
+            print(f"Categoría: {jugador['categoria']}")
+            print(f"Valor de mercado: {jugador['valor_mercado']}")
+            print(f"Goles: {jugador['goles']}")
+            print("-" * 25)
+            encontrado = True
+
+    if not encontrado:
+        print(f"No se encontró ningún jugador con el nombre '{nombre_buscar}'.")
 def listar_jugadores(jugadores):
+    """Muestra todos los jugadores registrados en el sistema."""
+    for jugador in jugadores:
+        print(f"ID: {jugador['id']} | {jugador['nombre']} ({jugador['edad']} años)")
+        print(f"Posición: {jugador['posicion']} | Club: {jugador['club_actual']} ({jugador['categoria']})")
+        print(f"Goles: {jugador['goles']} | Valor: ${jugador['valor_mercado']}M")
+        print("-" * 45)
     
 
 # Menu de jugadores
