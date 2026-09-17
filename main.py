@@ -771,8 +771,37 @@ def calcular_valor_por_club(lista_jugadores):
     else:
         print("\nNo se encontraron jugadores para ese club.")
         return None
-def calcular_goleador():
-    pass
+def calcular_goleador(jugadores):
+    """Calcula el goleador de cada liga"""
+    goleador_liga_argentina = ""
+    max_goles_liga_argentina = 0
+    goleador_primera_nacional = ""
+    max_goles_primera_nacional = 0
+
+    for jugador in jugadores:
+
+        if jugador["categoria"] == "Liga Profesional":
+            if jugador["goles"] > max_goles_liga_argentina:
+                max_goles_liga_argentina = jugador["goles"]
+                goleador_liga_argentina = jugador
+
+        elif jugador["categoria"] == "Primera Nacional":
+            if jugador["goles"] > max_goles_primera_nacional:
+                max_goles_primera_nacional = jugador["goles"]
+                goleador_primera_nacional = jugador
+
+    print("\n--- MÁXIMOS GOLEADORES ---")
+
+    if goleador_liga_argentina:
+        print(f"Liga Profesional: {goleador_liga_argentina['nombre']} con {goleador_liga_argentina['goles']} goles.")
+    else:
+        print("Liga Profesional: Sin jugadores.")
+
+    if goleador_primera_nacional:
+        print(f"Primera Nacional: {goleador_primera_nacional['nombre']} con {goleador_primera_nacional['goles']} goles.")
+    else:
+        print("Primera Nacional: Sin jugadores.") 
+
 
 # Menu de estadisticas
 def menu_estadisticas(jugadores):
@@ -868,24 +897,6 @@ def main():
     aux = True
 
     while aux == True:
-        print("Ingrese una opción del menú: \n")
-        print("[0] Salir del programa \n")
-        print("[1] Ir al menú de promedios \n")
-        print("[2] Calcular valor total por club \n")
-        
-        opcion = input("Ingrese el número de la opción elegida: ").strip()
-        
-        if opcion == "1":
-            menu_promedios(jugadores)
-        elif opcion == "2":
-            calcular_valor_por_club(jugadores)
-        elif opcion == "0":
-            print("\ningrese una opcion del menu: ")
-            print("[0] salir del programa")
-            print("[1] ir al menu de jugadores")
-            print("[2] ir al menu de clubes")
-            print("[3] ir al menu de filtros")
-            print("[4] ir al menu de estadisticas")
         print("\nIngrese una opcion del menu: ")
         print("[0] salir del programa")
         print("[1] ir al menu de jugadores")
