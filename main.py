@@ -305,8 +305,28 @@ def menu_promedios(jugadores):
     print("\n ¡Gracias por utilizar la consulta de promedios!")
 
 
-def calcular_valor_por_club():
-    pass
+def calcular_valor_por_club(lista_jugadores):
+    """Calcula el valor total de mercado de la plantilla de un club."""
+
+    suma_valor = 0
+    cantidad_jugadores = 0
+
+    club_buscado = input("Ingrese el nombre del club para calcular su valor: ").strip().lower()
+
+    for jugador in lista_jugadores:
+        club_actual = jugador["club_actual"].lower()
+
+        if club_buscado in club_actual:
+            suma_valor = suma_valor + jugador["valor_mercado"]
+            cantidad_jugadores = cantidad_jugadores + 1
+
+    if cantidad_jugadores > 0:
+        print(f"\nSe encontraron {cantidad_jugadores} jugadores para ese club.")
+        print(f"El valor total de la plantilla es: {suma_valor:.2f} millones de euros.")
+        return suma_valor
+    else:
+        print("\nNo se encontraron jugadores para ese club.")
+        return None
 def calcular_goleador():
     pass
 
@@ -319,26 +339,24 @@ def mostrar_matrices():
     pass 
 
 def main():
-    """
-    Inicializa los datos principales del programa.
-
-    Carga los clubes y jugadores usando sus respectivas funciones
-    y almacena los datos en variables locales para luego utilizarlos
-    en las distintas funcionalidades del sistema.
-    """
     liga_argentina, primera_nacional = cargar_clubes()
     jugadores = cargar_jugadores()
     aux = True
     while aux == True:
-        print("ingrese una opcion del menu: \n")
-        print("[0] salir del programa \n")
-        print("[1] ir al menu de promedios \n")
-        opcion = int(input("ingrese el numero de donde desea acceder: "))
-        if opcion == 1:
+        print("Ingrese una opción del menú: \n")
+        print("[0] Salir del programa \n")
+        print("[1] Ir al menú de promedios \n")
+        print("[2] Calcular valor total por club \n")
+        
+        opcion = input("Ingrese el número de la opción elegida: ").strip()
+        
+        if opcion == "1":
             menu_promedios(jugadores)
-        elif opcion == 0:
+        elif opcion == "2":
+            calcular_valor_por_club(jugadores)
+        elif opcion == "0":
             aux = False
         else:
-            print("ingrese una opcion correcta")
-  
+            print("Ingrese una opción correcta.\n")
+
 main()
