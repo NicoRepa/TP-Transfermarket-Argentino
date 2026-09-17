@@ -13,6 +13,44 @@ def buscar_jugador(jugadores):
 def listar_jugadores(jugadores):
     pass
 
+# Menu de jugadores
+def menu_jugadores(jugadores, liga_argentina, primera_nacional):
+    """Menu para acceder a las funciones de jugadores"""
+
+    aux = True
+
+    while aux == True:
+        print("\nMENU DE JUGADORES")
+        print("[0] Volver al menu principal")
+        print("[1] Crear jugador")
+        print("[2] Editar jugador")
+        print("[3] Eliminar jugador")
+        print("[4] Buscar jugador")
+        print("[5] Listar jugadores")
+
+        opcion = int(input("Ingrese una opcion segun su numero: "))
+
+        if opcion == 1:
+            crear_jugador(jugadores, liga_argentina, primera_nacional)
+
+        elif opcion == 2:
+            editar_jugador(jugadores)
+
+        elif opcion == 3:
+            eliminar_jugador(jugadores)
+
+        elif opcion == 4:
+            buscar_jugador(jugadores)
+
+        elif opcion == 5:
+            listar_jugadores(jugadores)
+
+        elif opcion == 0:
+            aux = False
+
+        else:
+            print("Ingrese una opcion correcta")
+
 # crud clubes
 
 def crear_club(liga_argentina, primera_nacional):
@@ -229,6 +267,49 @@ def listar_clubes(liga_argentina, primera_nacional):
     for club in primera_nacional:
         print(club["id"], "-", club["club"])
 
+# Menu de clubes
+def menu_clubes(liga_argentina, primera_nacional):
+    """Menu para hacer consultas de clubes"""
+
+    continuar = True
+
+    while continuar == True:
+        print("="*45)
+        print("              MENU CLUBES")
+        print("="*45)
+        print("[0] Salir del menu")
+        print("[1] Crear club")
+        print("[2] Editar club")
+        print("[3] Eliminar club")
+        print("[4] Buscar club")
+        print("[5] Listar clubes")
+        print("="*45)
+
+        opcion = int(input("Elija una opción segun su numero: "))
+
+        if opcion == 1:
+            crear_club(liga_argentina, primera_nacional)
+
+        elif opcion == 2:
+            editar_club(liga_argentina, primera_nacional)
+
+        elif opcion == 3:
+            eliminar_club(liga_argentina, primera_nacional)
+
+        elif opcion == 4:
+            buscar_club(liga_argentina, primera_nacional)
+
+        elif opcion == 5:
+            listar_clubes(liga_argentina, primera_nacional)
+
+        elif opcion == 0:
+            continuar = False
+
+        else:
+            print("\n Opción no válida.\n")
+
+    print("\nVolviendo al menu principal")
+
 #filtros
 def filtrar_jugadores_por_edad(jugadores):
     pass
@@ -236,6 +317,41 @@ def filtrar_jugadores_por_club(jugadores):
     pass
 def filtrar_jugadores_por_valor(jugadores):
     pass
+
+# Menu de filtros
+def menu_filtros(jugadores):
+    """Menu para hacer consultas con filtros"""
+
+    continuar = True
+
+    while continuar == True:
+        print("="*45)
+        print("              MENU FILTROS")
+        print("="*45)
+        print("[0] Salir del menu")
+        print("[1] Filtrar jugadores por edad")
+        print("[2] Filtrar jugadores por club")
+        print("[3] Filtrar jugadores por valor")
+        print("="*45)
+
+        opcion = int(input("Elija una opción segun su numero: "))
+
+        if opcion == 1:
+            filtrar_jugadores_por_edad(jugadores)
+
+        elif opcion == 2:
+            filtrar_jugadores_por_club(jugadores)
+
+        elif opcion == 3:
+            filtrar_jugadores_por_valor(jugadores)
+
+        elif opcion == 0:
+            continuar = False
+
+        else:
+            print("\n Opción no válida.\n")
+
+    print("\nVolviendo al menu principal")
 
 #estadisticas
 
@@ -330,6 +446,41 @@ def calcular_valor_por_club(lista_jugadores):
 def calcular_goleador():
     pass
 
+# Menu de estadisticas
+def menu_estadisticas(jugadores):
+    """Menu para hacer consultas de estadisticas"""
+
+    continuar = True
+
+    while continuar == True:
+        print("="*45)
+        print("            MENU ESTADISTICAS")
+        print("="*45)
+        print("[0] Salir del menu")
+        print("[1] Consultar promedios de edad")
+        print("[2] Calcular valor de un club")
+        print("[3] Consultar goleador")
+        print("="*45)
+
+        opcion = int(input("Elija una opción segun su numero: "))
+
+        if opcion == 1:
+            menu_promedios(jugadores)
+
+        elif opcion == 2:
+            calcular_valor_por_club(jugadores)
+
+        elif opcion == 3:
+            calcular_goleador(jugadores)
+
+        elif opcion == 0:
+            continuar = False
+
+        else:
+            print("\n Opción no válida.\n")
+
+    print("\nVolviendo al menu principal")
+
 #matrices
 def crear_matriz_planteles():
     pass
@@ -338,10 +489,56 @@ def crear_matriz_jugadores():
 def mostrar_matrices():
     pass 
 
+# Menu de matrices
+def menu_matrices(jugadores, liga_argentina, primera_nacional):
+    """Menu para mostrar las matrices"""
+
+    continuar = True
+
+    while continuar == True:
+        print("="*45)
+        print("              MENU MATRICES")
+        print("="*45)
+        print("[0] Salir del menu")
+        print("[1] Mostrar matriz de jugadores")
+        print("[2] Mostrar matriz de planteles")
+        print("="*45)
+
+        opcion = int(input("Elija una opción segun su numero: "))
+
+        if opcion == 1:
+            matriz = crear_matriz_jugadores(jugadores)
+            mostrar_matrices(matriz)
+
+        elif opcion == 2:
+            matriz = crear_matriz_planteles(
+                liga_argentina,
+                primera_nacional
+            )
+            mostrar_matrices(matriz)
+
+        elif opcion == 0:
+            continuar = False
+
+        else:
+            print("\n Opción no válida.\n")
+
+    print("\nVolviendo al menu principal")
+
 def main():
+    """
+    Inicializa los datos principales del programa.
+
+    Carga los clubes y jugadores usando sus respectivas funciones
+    y almacena los datos en variables locales para luego utilizarlos
+    en las distintas funcionalidades del sistema.
+    """
+
     liga_argentina, primera_nacional = cargar_clubes()
     jugadores = cargar_jugadores()
+
     aux = True
+
     while aux == True:
         print("Ingrese una opción del menú: \n")
         print("[0] Salir del programa \n")
@@ -355,8 +552,50 @@ def main():
         elif opcion == "2":
             calcular_valor_por_club(jugadores)
         elif opcion == "0":
+        print("\ningrese una opcion del menu: ")
+        print("[0] salir del programa")
+        print("[1] ir al menu de jugadores")
+        print("[2] ir al menu de clubes")
+        print("[3] ir al menu de filtros")
+        print("[4] ir al menu de estadisticas")
+        print("[5] ir al menu de matrices")
+
+        opcion = int(input("ingrese el numero de donde desea acceder: "))
+
+        if opcion == 1:
+            menu_jugadores(
+                jugadores,
+                liga_argentina,
+                primera_nacional
+            )
+
+        elif opcion == 2:
+            menu_clubes(
+                liga_argentina,
+                primera_nacional
+            )
+
+        elif opcion == 3:
+            menu_filtros(jugadores)
+
+        elif opcion == 4:
+            menu_estadisticas(jugadores)
+
+        elif opcion == 5:
+            menu_matrices(
+                jugadores,
+                liga_argentina,
+                primera_nacional
+            )
+
+        elif opcion == 0:
             aux = False
+
         else:
             print("Ingrese una opción correcta.\n")
+            print("ingrese una opcion correcta")
+
+    print("programa finalizado")
+
 
 main()
