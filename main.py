@@ -312,11 +312,57 @@ def menu_clubes(liga_argentina, primera_nacional):
 
 #filtros
 def filtrar_jugadores_por_edad(jugadores):
-    pass
+    edad_minima = int(input("Ingrese la edad mínima: "))
+    edad_maxima = int(input("Ingrese la edad máxima: "))
+
+    encontrados = []
+
+    for jugador in jugadores:
+        if jugador["edad"] >= edad_minima and jugador["edad"] <= edad_maxima:
+            encontrados.append(jugador)
+
+    if len(encontrados) > 0:
+        for jugador in encontrados:
+            print(jugador["id"], "-", jugador["nombre"], "-", jugador["edad"], "años")
+    else:
+        print("No se encontraron jugadores en ese rango de edad.")
+
+    return encontrados
 def filtrar_jugadores_por_club(jugadores):
-    pass
+    club_buscado = input("Ingrese el nombre del club: ").strip().lower()
+
+    encontrados = []
+
+    for jugador in jugadores:
+        club_actual = jugador["club_actual"].lower()
+
+        if club_buscado in club_actual:
+            encontrados.append(jugador)
+
+    if len(encontrados) > 0:
+        for jugador in encontrados:
+            print(jugador["id"], "-", jugador["nombre"], "-", jugador["club_actual"])
+    else:
+        print("No se encontraron jugadores para ese club.")
+
+    return encontrados
 def filtrar_jugadores_por_valor(jugadores):
-    pass
+    valor_minimo = float(input("Ingrese el valor de mercado mínimo: "))
+    valor_maximo = float(input("Ingrese el valor de mercado máximo: "))
+
+    encontrados = []
+
+    for jugador in jugadores:
+        if jugador["valor_mercado"] >= valor_minimo and jugador["valor_mercado"] <= valor_maximo:
+            encontrados.append(jugador)
+
+    if len(encontrados) > 0:
+        for jugador in encontrados:
+            print(jugador["id"], "-", jugador["nombre"], "-", jugador["valor_mercado"])
+    else:
+        print("No se encontraron jugadores en ese rango de valor.")
+
+    return encontrados
 
 # Menu de filtros
 def menu_filtros(jugadores):
@@ -552,12 +598,12 @@ def main():
         elif opcion == "2":
             calcular_valor_por_club(jugadores)
         elif opcion == "0":
-        print("\ningrese una opcion del menu: ")
-        print("[0] salir del programa")
-        print("[1] ir al menu de jugadores")
-        print("[2] ir al menu de clubes")
-        print("[3] ir al menu de filtros")
-        print("[4] ir al menu de estadisticas")
+            print("\ningrese una opcion del menu: ")
+            print("[0] salir del programa")
+            print("[1] ir al menu de jugadores")
+            print("[2] ir al menu de clubes")
+            print("[3] ir al menu de filtros")
+            print("[4] ir al menu de estadisticas")
         print("[5] ir al menu de matrices")
 
         opcion = int(input("ingrese el numero de donde desea acceder: "))
