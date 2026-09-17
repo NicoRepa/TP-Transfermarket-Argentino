@@ -3,15 +3,131 @@ from jugadores import cargar_jugadores
 
 #crud jugadores
 def crear_jugador(jugadores, liga_argentina, primera_nacional):
-    pass
-def editar_jugador(jugadores):
-    pass
+    """ Funcion para crear un jugador """
+    id=len(jugadores)+1
+    nombre_jugador = input("ingrese nombre del jugador: ")
+    if nombre_jugador == "":
+        print("el nombre no puede estar vacio.")
+    edad = int(input("ingrese edad del jugador: "))
+    if edad <=16:
+        print("el jugador es muy joven para anotarlo.")
+    posicion = input("ingrese la posicion donde juega: ")
+    club_actual = input("ingrese el club donde esta jugando: ")
+    valor_mercado = float(input("ingrese el valor del jugador: "))
+    goles = int(input("ingrese la cantidad de goles que tiene: "))
+    categoria = ""
+
+    for club in liga_argentina:
+        if club_actual.strip().lower() in club["club"].lower():
+            categoria = "Liga Profesional"
+            club_actual = club["club"]
+
+    if not categoria:
+        for club in primera_nacional:
+            if club_actual.strip().lower() in club["club"].lower():
+                categoria = "Primera Nacional"
+                club_actual = club["club"]
+
+    nuevo_jugador = {
+        "id": id,
+        "nombre": nombre_jugador,
+        "edad": edad,
+        "posicion": posicion,
+        "club_actual": club_actual,
+        "valor_mercado": valor_mercado,
+        "categoria": categoria,
+        "goles": goles
+    }
+    #print(nuevo_jugador)
+    jugadores.append(nuevo_jugador)
+
+def editar_jugador(jugadores, liga_argentina, primera_nacional):
+    """Permite modificar los datos de un jugador."""
+
+    nombre_buscar = input("Ingrese el nombre del jugador que desea editar: ")
+    jugador_encontrado = None
+    for jugador in jugadores:
+        if (jugador["nombre"]) == nombre_buscar:
+            jugador_encontrado = jugador
+    if jugador_encontrado is None:
+        print("No se encontró ningún jugador con ese nombre.")
+        return
+
+    print("Jugador encontrado:", jugador_encontrado["nombre"])
+    print("¿Qué dato desea modificar?")
+    print("1. Nombre")
+    print("2. Edad")
+    print("3. Posición")
+    print("4. Club")
+    print("5. Valor de mercado")
+    print("6. Goles")
+    print("Ingrese una opción: ")
+    opcion = input(" ingrese la opcion que desea editar: ")
+
+    if opcion == "1":
+        jugador_encontrado["nombre"] = input("Ingrese el nuevo nombre: ")
+
+    elif opcion == "2":
+        edad = int(input("Ingrese la nueva edad: "))
+
+        if edad <= 16:
+            print("La edad debe ser mayor a 16.")
+            return
+
+        jugador_encontrado["edad"] = edad
+
+    elif opcion == "3":
+        jugador_encontrado["posicion"] = input(
+            "Ingrese la nueva posición: "
+        )
+
+    elif opcion == "4":
+        club_ingresado = input("Ingrese el nuevo club: ").strip()
+        categoria = None
+        nombre_club = None
+
+        for club in liga_argentina:
+            if club_ingresado.lower() == club["club"].lower():
+                nombre_club = club["club"]
+                categoria = "Liga Profesional"
+                break
+
+        if categoria is None:
+            for club in primera_nacional:
+                if club_ingresado.lower() == club["club"].lower():
+                    nombre_club = club["club"]
+                    categoria = "Primera Nacional"
+                    break
+
+        if categoria is None:
+            print("El club no existe.")
+            return
+
+        jugador_encontrado["club_actual"] = nombre_club
+        jugador_encontrado["categoria"] = categoria
+
+    elif opcion == "5":
+        jugador_encontrado["valor_mercado"] = float(
+            input("Ingrese el nuevo valor de mercado: ")
+        )
+
+    elif opcion == "6":
+        jugador_encontrado["goles"] = int(
+            input("Ingrese la nueva cantidad de goles: ")
+        )
+
+    else:
+        print("Opción inválida.")
+
+    print("Jugador modificado correctamente")
+
 def eliminar_jugador(jugadores):
     pass
+
 def buscar_jugador(jugadores):
-    pass
+
 def listar_jugadores(jugadores):
-    pass
+    
 
 # Menu de jugadores
 def menu_jugadores(jugadores, liga_argentina, primera_nacional):
@@ -34,7 +150,7 @@ def menu_jugadores(jugadores, liga_argentina, primera_nacional):
             crear_jugador(jugadores, liga_argentina, primera_nacional)
 
         elif opcion == 2:
-            editar_jugador(jugadores)
+            editar_jugador(jugadores, liga_argentina, primera_nacional)
 
         elif opcion == 3:
             eliminar_jugador(jugadores)
@@ -540,19 +656,7 @@ def main():
     aux = True
 
     while aux == True:
-        print("Ingrese una opción del menú: \n")
-        print("[0] Salir del programa \n")
-        print("[1] Ir al menú de promedios \n")
-        print("[2] Calcular valor total por club \n")
-        
-        opcion = input("Ingrese el número de la opción elegida: ").strip()
-        
-        if opcion == "1":
-            menu_promedios(jugadores)
-        elif opcion == "2":
-            calcular_valor_por_club(jugadores)
-        elif opcion == "0":
-        print("\ningrese una opcion del menu: ")
+        print("\nIngrese una opcion del menu: ")
         print("[0] salir del programa")
         print("[1] ir al menu de jugadores")
         print("[2] ir al menu de clubes")
