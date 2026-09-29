@@ -4,53 +4,75 @@ from jugadores import cargar_jugadores
 #crud jugadores
 def crear_jugador(jugadores, liga_argentina, primera_nacional):
     """ Funcion para crear un jugador """
-    id=len(jugadores)+1
+    id = len(jugadores) + 1
+    
     nombre_jugador = input("ingrese nombre del jugador: ")
-    if nombre_jugador == "":
+    while nombre_jugador == "":
         print("el nombre no puede estar vacio.")
+        nombre_jugador = input("ingrese nombre del jugador: ")
+        
     edad = int(input("ingrese edad del jugador: "))
-    if edad < 15 or edad > 45:
+    while edad < 15 or edad > 45:
         print("La edad debe ser mayor a 15 y menor a 45.")
+        edad = int(input("ingrese edad del jugador: "))
+        
     posicion = input("ingrese la posicion donde juega: ")
+    
+    # Pedimos el club inicial fuera del while
     club_actual = input("ingrese el club donde esta jugando: ")
+    categoria = ""
+    club_oficial = ""
+
+    # Validamos el club dentro del while
+    while not categoria:
+        # 1. Buscar en Liga Profesional
+        for club in liga_argentina:
+            if club_actual.strip().lower() in club["club"].lower():
+                categoria = "Liga Profesional"
+                club_oficial = club["club"]
+                break  # Salimos del for al encontrarlo
+
+        # 2. Si no se encontró, buscar en Primera Nacional
+        if not categoria:
+            for club in primera_nacional:
+                if club_actual.strip().lower() in club["club"].lower():
+                    categoria = "Primera Nacional"
+                    club_oficial = club["club"]
+                    break  # Salimos del for al encontrarlo
+
+        # 3. Si no está en ninguna de las dos, pedimos de nuevo
+        if not categoria:
+            print("ingrese un club que exista en cualquiera de las 2 ligas")
+            club_actual = input("ingrese el club donde esta jugando: ")
+
+    # Una vez validado, pedimos los datos que faltaban
     valor_mercado = float(input("ingrese el valor del jugador: "))
     goles = int(input("ingrese la cantidad de goles que tiene: "))
-    categoria = ""
-
-    for club in liga_argentina:
-        if club_actual.strip().lower() in club["club"].lower():
-            categoria = "Liga Profesional"
-            club_actual = club["club"]
-
-    if not categoria:
-        for club in primera_nacional:
-            if club_actual.strip().lower() in club["club"].lower():
-                categoria = "Primera Nacional"
-                club_actual = club["club"]
 
     nuevo_jugador = {
         "id": id,
         "nombre": nombre_jugador,
         "edad": edad,
         "posicion": posicion,
-        "club_actual": club_actual,
+        "club_actual": club_oficial,  # Usamos el nombre oficial limpio
         "valor_mercado": valor_mercado,
         "categoria": categoria,
         "goles": goles
     }
-    #print(nuevo_jugador)
+    
     jugadores.append(nuevo_jugador)
+    print("¡Jugador creado con éxito!")
 
 def editar_jugador(jugadores, liga_argentina, primera_nacional):
     """Permite modificar los datos de un jugador."""
 
-    nombre_buscar = input("Ingrese el nombre del jugador que desea editar: ")
+    id_buscar = input("Ingrese el ID del jugador que desea editar: ")
     jugador_encontrado = None
     for jugador in jugadores:
-        if (jugador["nombre"]) == nombre_buscar:
+        if str(jugador["id"]) == id_buscar:
             jugador_encontrado = jugador
     if jugador_encontrado is None:
-        print("No se encontró ningún jugador con ese nombre.")
+        print("No se encontró ningún jugador con ese ID.")
         return
 
     print("Jugador encontrado:", jugador_encontrado["nombre"])
