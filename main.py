@@ -1037,7 +1037,6 @@ def main():
 
         else:
             print("Ingrese una opción correcta.\n")
-            print("ingrese una opcion correcta")
 
     print("programa finalizado")
 
