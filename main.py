@@ -1,4 +1,5 @@
-from cargar_informacion import cargar_clubes_liga_arg, cargar_clubes_primera_nacional, cargar_jugadores
+import json
+import os
 
 from jugadores import *
 
@@ -18,11 +19,6 @@ def main():
     y almacena los datos en variables locales para luego utilizarlos
     en las distintas funcionalidades del sistema.
     """
-
-    primera_nacional = cargar_clubes_primera_nacional()
-    liga_argentina = cargar_clubes_liga_arg()
-    jugadores = cargar_jugadores()
-
     aux = True
 
     while aux == True:
