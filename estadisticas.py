@@ -1,4 +1,5 @@
 #estadisticas
+from functools import reduce
 
 def calcular_promedio_edad_por_categoria(lista_jugadores, nombre_categoria):
     """ Funcion para calcular promedio de edad por categoria elegida"""

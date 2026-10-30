@@ -1,6 +1,4 @@
-import json
-import os
-
+from archivos import *
 from jugadores import *
 
 from clubes import *
@@ -20,6 +18,9 @@ def main():
     en las distintas funcionalidades del sistema.
     """
     aux = True
+    liga_argentina = cargar_json("clubesPrimera.json")
+    primera_nacional = cargar_json("clubesPrimeraNacional.json")
+    jugadores = cargar_json("jugadores.json")
 
     while aux == True:
         print("\nIngrese una opcion del menu: ")
@@ -58,6 +59,9 @@ def main():
 
         elif opcion == 0:
             aux = False
+            guardar_json("clubesPrimera.json", liga_argentina)
+            guardar_json("clubesPrimeraNacional.json", primera_nacional)
+            guardar_json("jugadores.json", jugadores)
 
         else:
             print("Ingrese una opción correcta.\n")
