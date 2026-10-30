@@ -168,7 +168,7 @@ def buscar_jugador(jugadores):
             print(f"Posición: {jugador['posicion']}")
             print(f"Club: {jugador['club_actual']}")
             print(f"Categoría: {jugador['categoria']}")
-            print(f"Valor de mercado: {jugador['valor_mercado']}")
+            print(f"Valor de mercado: {jugador['valor_mercado']}M")
             print(f"Goles: {jugador['goles']}")
             print("-" * 25)
             encontrado = True

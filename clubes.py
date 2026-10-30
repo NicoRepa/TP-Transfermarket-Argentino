@@ -299,7 +299,23 @@ def buscar_club(liga_argentina, primera_nacional):
             print(
                 club["id"],
                 "-",
-                club["club"]
+                club["club"],
+                "\nValor del plantel en euros:",
+                club["valor_plantel_millones_eur"],
+                "\nTítulos nacionales:",
+                club["titulos_nacionales"],
+                "\nTítulos internacionales:",
+                club["titulos_internacionales"],
+                "\nCopa Libertadores:",
+                club["copa_libertadores"],
+                "\nCopa Sudamericana:",
+                club["copa_sudamericana"],
+                "\nMundial de Clubes Intercontinental:",
+                club["mundial_de_clubes_intercontinental"],
+                "\nTítulos totales:",
+                club["titulos_totales"],
+                "\nDescensos:",
+                club["descensos"]
             )
 
             encontrado = True
