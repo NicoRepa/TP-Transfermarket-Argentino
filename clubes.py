@@ -1,5 +1,6 @@
 # crud clubes
-
+import json
+import os
 def crear_club(liga_argentina, primera_nacional):
     """Registra un nuevo club en la división seleccionada."""
 
@@ -279,61 +280,47 @@ def eliminar_club(liga_argentina, primera_nacional):
         print("No se encontró ningún club con ese ID.")
 
 
-def buscar_club(liga_argentina, primera_nacional):
-    """Busca clubes por nombre utilizando coincidencias parciales."""
-
-    termino = input(
-        "Ingrese el nombre del club que desea buscar: "
-    ).strip()
-
-    if termino == "":
-        print("Debe ingresar un nombre para realizar la búsqueda.")
-        return
-
+def buscar_clubes(liga_argentina, primera_nacional):
+    """
+    Busca un club por su nombre en ambas listas de clubes e imprime 
+    toda su información junto con su clásico rival sacado de clasicos.json.
+    """
+    nombre_club = input("\nIngrese el nombre del club a buscar: ").strip()
+    
+    # Combinamos ambas listas para realizar la búsqueda
+    todos_los_clubes = liga_argentina + primera_nacional
     encontrado = False
 
-    for club in liga_argentina:
+    # Función auxiliar para leer clasicos.json y obtener el rival
+    def obtener_clasico_rival(nombre_completo):
+        directorio = os.path.dirname(__file__)
+        ruta_clasicos = os.path.join(directorio, "clasicos.json")
+        try:
+            with open(ruta_clasicos, "r", encoding="utf-8") as f:
+                lista_clasicos = json.load(f)
+            for c in lista_clasicos:
+                if c.get("club1") == nombre_completo:
+                    return c.get("club2")
+                elif c.get("club2") == nombre_completo:
+                    return c.get("club1")
+        except (FileNotFoundError, json.JSONDecodeError):
+            pass
+        return "Sin clásico registrado"
 
-        if termino.lower() in club["club"].lower():
-
-            print(
-                club["id"],
-                "-",
-                club["club"],
-                "\nValor del plantel en euros:",
-                club["valor_plantel_millones_eur"],
-                "\nTítulos nacionales:",
-                club["titulos_nacionales"],
-                "\nTítulos internacionales:",
-                club["titulos_internacionales"],
-                "\nCopa Libertadores:",
-                club["copa_libertadores"],
-                "\nCopa Sudamericana:",
-                club["copa_sudamericana"],
-                "\nMundial de Clubes Intercontinental:",
-                club["mundial_de_clubes_intercontinental"],
-                "\nTítulos totales:",
-                club["titulos_totales"],
-                "\nDescensos:",
-                club["descensos"]
-            )
-
+    # Recorremos manteniendo la forma original de búsqueda por nombre
+    for club in todos_los_clubes:
+        if nombre_club.lower() in club["club"].lower():
             encontrado = True
+            rival = obtener_clasico_rival(club["club"])
+            
+            print("\n--- INFORMACIÓN DEL CLUB ---")
+            for clave, valor in club.items():
+                print(f"{clave}: {valor}")
+            print(f"clasico_rival: {rival}")
+            print("-" * 30)
 
-    for club in primera_nacional:
-
-        if termino.lower() in club["club"].lower():
-
-            print(
-                club["id"],
-                "-",
-                club["club"]
-            )
-
-            encontrado = True
-
-    if encontrado == False:
-        print("No se encontró ningún club.")
+    if not encontrado:
+        print(f"\nNo se encontró ningún club que coincida con '{nombre_club}'.")
 
 
 def listar_clubes(liga_argentina, primera_nacional):
@@ -388,7 +375,7 @@ def menu_clubes(liga_argentina, primera_nacional):
             eliminar_club(liga_argentina, primera_nacional)
 
         elif opcion == 4:
-            buscar_club(liga_argentina, primera_nacional)
+            buscar_clubes(liga_argentina, primera_nacional)
 
         elif opcion == 5:
             listar_clubes(liga_argentina, primera_nacional)
