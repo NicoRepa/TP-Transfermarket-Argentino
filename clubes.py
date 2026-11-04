@@ -345,6 +345,83 @@ def listar_clubes(liga_argentina, primera_nacional):
             "-",
             club["club"]
         )
+def comparar_clasicos(liga_argentina, primera_nacional):
+    """
+    Pide al usuario el nombre de un club, busca su clásico rival en clasicos.json
+    y compara toda la información (títulos, descensos, valor de plantel) entre ambos.
+    """
+    nombre_ingresado = input("\nIngrese el nombre del club a comparar: ").strip()
+    todos_los_clubes = liga_argentina + primera_nacional
+    
+    # 1. Buscar si el club ingresado existe en nuestras listas
+    club_1 = None
+    for c in todos_los_clubes:
+        if nombre_ingresado.lower() in c["club"].lower():
+            club_1 = c
+            break
+
+    if not club_1:
+        print(f"\nNo se encontró ningún club que coincida con '{nombre_ingresado}'.")
+        return
+
+    # 2. Leer clasicos.json para obtener la pareja/clásico
+    directorio = os.path.dirname(__file__)
+    ruta_clasicos = os.path.join(directorio, "clasicos.json")
+    nombre_rival = None
+    
+    try:
+        with open(ruta_clasicos, "r", encoding="utf-8") as f:
+            lista_clasicos = json.load(f)
+            
+        for par in lista_clasicos:
+            if par.get("club1") == club_1["club"]:
+                nombre_rival = par.get("club2")
+                break
+            elif par.get("club2") == club_1["club"]:
+                nombre_rival = par.get("club1")
+                break
+    except (FileNotFoundError, json.JSONDecodeError):
+        pass
+
+    if not nombre_rival:
+        print(f"\nEl club '{club_1['club']}' no tiene un clásico registrado en clasicos.json.")
+        return
+
+    # 3. Buscar el objeto del rival en la lista de clubes
+    club_2 = None
+    for c in todos_los_clubes:
+        if c["club"] == nombre_rival:
+            club_2 = c
+            break
+
+    if not club_2:
+        print(f"\nSe encontró la pareja '{nombre_rival}', pero sus datos no están cargados en los archivos JSON de clubes.")
+        return
+
+    # 4. Mostrar la comparación lado a lado
+    print("\n" + "=" * 60)
+    print(f" COMPARACIÓN: {club_1['club']}  vs.  {club_2['club']}")
+    print("=" * 60)
+    
+    # Recorremos todas las claves que tienen los diccionarios (id, valor, titulos, etc.)
+    for clave in club_1.keys():
+        val1 = club_1[clave]
+        val2 = club_2.get(clave, "N/A")
+        
+        # Le damos un formato prolijo a la salida
+        print(f" • {clave.upper().replace('_', ' ')}:")
+        print(f"   - {club_1['club']}: {val1}")
+        print(f"   - {club_2['club']}: {val2}")
+        
+        # Si la clave representa un valor numérico comparable (como títulos o valor de plantel), mostramos quién gana
+        if isinstance(val1, (int, float)) and isinstance(val2, (int, float)) and clave != "id":
+            if val1 > val2:
+                print(f"   --> Vencedor: {club_1['club']}")
+            elif val2 > val1:
+                print(f"   --> Vencedor: {club_2['club']}")
+            else:
+                print("   --> Empate")
+        print("-" * 60)
 # Menu de clubes
 def menu_clubes(liga_argentina, primera_nacional):
     """Menu para hacer consultas de clubes"""
@@ -361,6 +438,7 @@ def menu_clubes(liga_argentina, primera_nacional):
         print("[3] Eliminar club")
         print("[4] Buscar club")
         print("[5] Listar clubes")
+        print("[6] Comparar clásicos")
         print("="*45)
 
         opcion = int(input("Elija una opción segun su numero: "))
@@ -379,6 +457,9 @@ def menu_clubes(liga_argentina, primera_nacional):
 
         elif opcion == 5:
             listar_clubes(liga_argentina, primera_nacional)
+
+        elif opcion == 6:
+            comparar_clasicos(liga_argentina, primera_nacional)
 
         elif opcion == 0:
             continuar = False

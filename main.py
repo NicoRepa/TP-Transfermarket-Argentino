@@ -21,6 +21,7 @@ def main():
     liga_argentina = cargar_json("clubesPrimera.json")
     primera_nacional = cargar_json("clubesPrimeraNacional.json")
     jugadores = cargar_json("jugadores.json")
+    clasicos = cargar_json("clasicos.json")
 
     while aux == True:
         print("\nIngrese una opcion del menu: ")
