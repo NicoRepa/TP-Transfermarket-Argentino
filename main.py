@@ -1,4 +1,5 @@
 from archivos import *
+
 from jugadores import *
 
 from clubes import *
@@ -8,6 +9,10 @@ from filtros import *
 from estadisticas import *
 
 from matrices import *
+
+from mercadoDePases import menu_mercado_de_pases
+
+from historial import menu_historial
 
 def main():
     """
@@ -31,6 +36,8 @@ def main():
         print("[3] ir al menu de filtros")
         print("[4] ir al menu de estadisticas")
         print("[5] ir al menu de matrices")
+        print("[6] Ir al menú del mercado de pases")
+        print("[7] Ir al historial de pases")
 
         opcion = int(input("ingrese el numero de donde desea acceder: "))
 
@@ -57,6 +64,16 @@ def main():
             menu_matrices(
                 jugadores
             )
+            
+        elif opcion == 6:
+            menu_mercado_de_pases(
+            jugadores,
+            liga_argentina,
+            primera_nacional
+            )
+
+        elif opcion == 7:
+            menu_historial()
 
         elif opcion == 0:
             aux = False
