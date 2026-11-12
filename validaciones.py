@@ -1,4 +1,4 @@
-import re
+
 
 
 def leer_entero(mensaje):
@@ -57,9 +57,24 @@ def leer_texto_no_vacio(mensaje):
 
 def leer_nombre_jugador(mensaje):
     """Pide un nombre con letras, espacios, apostrofes o guiones"""
+    letras = "abcdefghijklmnñopqrstuvwxyzABCDEFGHIJKLMNÑOPQRSTUVWXYZáéíóúüÁÉÍÓÚÜ"
+    permitidos = letras + " '-"
     nombre = leer_texto_no_vacio(mensaje)
-    patron = r"^[A-Za-zÁÉÍÓÚÜÑáéíóúüñ][A-Za-zÁÉÍÓÚÜÑáéíóúüñ '-]*$"
-    while re.match(patron, nombre) is None:
-        print("El nombre debe comenzar con una letra y no contener numeros")
-        nombre = leer_texto_no_vacio(mensaje)
+
+    valido = False
+    while valido == False:
+        if nombre[0] not in letras:
+            print("El nombre debe comenzar con una letra")
+            nombre = leer_texto_no_vacio(mensaje)
+        else:
+            bien = True
+            for caracter in nombre:
+                if caracter not in permitidos:
+                    bien = False
+            if bien == True:
+                valido = True
+            else:
+                print("El nombre solo puede tener letras, espacios, apostrofes o guiones")
+                nombre = leer_texto_no_vacio(mensaje)
+
     return nombre
