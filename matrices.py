@@ -1,12 +1,15 @@
 #matrices
+from clubes import seleccionar_club_por_id, normalizar_nombre_club
 
-def crear_matriz_planteles(jugadores):
+
+def crear_matriz_planteles(jugadores, liga_argentina, primera_nacional):
     """Crea una matriz con los jugadores de un club"""
 
-    club_buscado = input(
-        "Ingrese el nombre del club que desea consultar: "
-    ).lower()
+    club = seleccionar_club_por_id(liga_argentina, primera_nacional)
+    if club is None:
+        return
 
+    nombre_club = normalizar_nombre_club(club["club"])
     matriz = []
 
     matriz.append([
@@ -14,11 +17,10 @@ def crear_matriz_planteles(jugadores):
         "Posicion",
         "Edad",
         "Valor de Mercado",
-        "Goles"
-    ])
+        "Goles"])
 
     for jugador in jugadores:
-        if club_buscado in jugador["club_actual"].lower():
+        if normalizar_nombre_club(jugador["club_actual"]) == nombre_club:
 
             fila = [
                 jugador["nombre"],
@@ -49,7 +51,6 @@ def crear_matriz_jugadores(jugadores):
 
     else:
         print("Opcion incorrecta")
-        return []
 
     matriz = []
 
@@ -59,8 +60,7 @@ def crear_matriz_jugadores(jugadores):
         "Posicion",
         "Edad",
         "Valor de Mercado",
-        "Goles"
-    ])
+        "Goles"])
 
     for jugador in jugadores:
         if jugador["categoria"].lower() == categoria_buscada:
@@ -71,8 +71,7 @@ def crear_matriz_jugadores(jugadores):
                 jugador["posicion"],
                 jugador["edad"],
                 jugador["valor_mercado"],
-                jugador["goles"]
-            ]
+                jugador["goles"]]
 
             matriz.append(fila)
 
@@ -90,7 +89,7 @@ def mostrar_matrices(matriz):
         print()
 
 # Menu de matrices
-def menu_matrices(jugadores):
+def menu_matrices(jugadores, liga_argentina, primera_nacional):
     """Menu para mostrar las matrices"""
 
     continuar = True
@@ -111,13 +110,13 @@ def menu_matrices(jugadores):
             mostrar_matrices(matriz)
 
         elif opcion == 2:
-            matriz = crear_matriz_planteles(jugadores)
+            matriz = crear_matriz_planteles(jugadores, liga_argentina, primera_nacional)
             mostrar_matrices(matriz)
 
         elif opcion == 0:
             continuar = False
 
         else:
-            print("\n Opción no válida.\n")
+            print("Opción no válida.")
 
     print("\nVolviendo al menu principal")

@@ -11,14 +11,14 @@ def cargar_json(nombre_archivo):
             datos = json.load(archivo)
         return datos
     except FileNotFoundError:
-        print(f"Aviso: El archivo '{nombre_archivo}' no fue encontrado. Se iniciará vacío.")
+        print(f"Aviso: El archivo '{nombre_archivo}' no fue encontrado. Se iniciara vacio")
         return []
     except json.JSONDecodeError:
-        print(f"Error: El archivo '{nombre_archivo}' tiene un formato JSON inválido.")
+        print(f"Error: El archivo '{nombre_archivo}' tiene un formato JSON invalido")
         return []
 
 def guardar_json(nombre_archivo, datos):
-    """Recibe un objeto de Python (lista o diccionario) y lo guarda en formato JSON con sangría y codificación UTF-8"""
+    """Recibe un objeto de Python (lista o diccionario) y lo guarda en formato JSON con sangria y codificacion UTF-8"""
     try:
         ruta_actual = os.path.dirname(__file__)
         ruta_archivo = os.path.join(ruta_actual, nombre_archivo)
@@ -27,4 +27,4 @@ def guardar_json(nombre_archivo, datos):
             json.dump(datos, archivo, indent=4, ensure_ascii=False)
         print(f"Archivo '{nombre_archivo}' guardado correctamente.")
     except Exception as e:
-        print(f"Ocurrió un error al guardar el archivo '{nombre_archivo}': {e}")
+        print(f"Ocurrio un error al guardar el archivo '{nombre_archivo}': {e}")

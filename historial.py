@@ -34,7 +34,7 @@ def mostrar_historial():
                 print("Todavía no hay pases registrados.")
 
     except FileNotFoundError:
-        print("Todavía no hay pases registrados.")
+        print("Todavia no hay pases registrados.")
     except OSError as error:
         print("No se pudo leer el historial:", error)
 
@@ -45,14 +45,14 @@ def menu_historial():
 
     while continuar:
         print("\n=== HISTORIAL DE PASES ===")
-        print("[0] Volver al menú principal")
+        print("[0] Volver al menu principal")
         print("[1] Ver historial")
 
-        opcion = input("Elija una opción: ").strip()
+        opcion = input("Elija una opcion: ").strip()
 
         if opcion == "1":
             mostrar_historial()
         elif opcion == "0":
             continuar = False
         else:
-            print("Opción inválida.")
+            print("Opcion invalida.")

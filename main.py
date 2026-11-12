@@ -55,14 +55,16 @@ def main():
             )
 
         elif opcion == 3:
-            menu_filtros(jugadores)
+            menu_filtros(jugadores, liga_argentina, primera_nacional)
 
         elif opcion == 4:
-            menu_estadisticas(jugadores)
+            menu_estadisticas(jugadores, liga_argentina, primera_nacional)
 
         elif opcion == 5:
             menu_matrices(
-                jugadores
+                jugadores,
+                liga_argentina,
+                primera_nacional
             )
             
         elif opcion == 6:
@@ -82,7 +84,7 @@ def main():
             guardar_json("jugadores.json", jugadores)
 
         else:
-            print("Ingrese una opción correcta.\n")
+            print("Ingrese una opción correcta\n")
 
     print("programa finalizado")
 
