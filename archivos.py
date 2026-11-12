@@ -15,10 +15,7 @@ def cargar_json(nombre_archivo):
         return []
     except json.JSONDecodeError:
         print(f"Error: El archivo '{nombre_archivo}' tiene un formato JSON invalido")
-        return None
-    except (OSError, UnicodeError) as error:
-        print("No se pudo leer el archivo:", error)
-        return None
+        return []
 
 def guardar_json(nombre_archivo, datos):
     """Recibe un objeto de Python (lista o diccionario) y lo guarda en formato JSON con sangria y codificacion UTF-8"""
@@ -29,7 +26,5 @@ def guardar_json(nombre_archivo, datos):
         with open(ruta_archivo, "w", encoding="utf-8") as archivo:
             json.dump(datos, archivo, indent=4, ensure_ascii=False)
         print(f"Archivo '{nombre_archivo}' guardado correctamente.")
-        return True
     except Exception as e:
         print(f"Ocurrio un error al guardar el archivo '{nombre_archivo}': {e}")
-        return False

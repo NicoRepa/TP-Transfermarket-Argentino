@@ -7,7 +7,7 @@ def calcular_promedio_edad_por_categoria(lista_jugadores, nombre_categoria):
     cat = nombre_categoria.strip().lower()
 
    
-    jugadores_cat = list(filter(lambda j: cat == j["categoria"].lower(), lista_jugadores))
+    jugadores_cat = list(filter(lambda j: cat in j["categoria"].lower(), lista_jugadores))
 
     if len(jugadores_cat) == 0:
         print("No se encontraron jugadores para esa categoria")
@@ -123,14 +123,14 @@ def calcular_goleador(jugadores):
     
     if len(liga_arg) > 0:
         goleador_liga = reduce(lambda a, b: a if a["goles"] >= b["goles"] else b, liga_arg)
-        print(f"Liga Profesional: {goleador_liga['nombre']} con {goleador_liga['goles']} goles")
+        print(f"Liga Profesional:{goleador_liga["nombre"]} con {goleador_liga["goles"]} goles")
     else:
         print("Liga Profesional: Sin jugadores")
 
     
     if len(primera_nac) > 0:
         goleador_pn = reduce(lambda a, b: a if a["goles"] >= b["goles"] else b, primera_nac)
-        print(f"Primera Nacional: {goleador_pn['nombre']} con {goleador_pn['goles']} goles")
+        print(f"Primera Nacional:{goleador_pn["nombre"]}con {goleador_pn["goles"]} goles")
     else:
         print("Primera Nacional: Sin jugadores")
 

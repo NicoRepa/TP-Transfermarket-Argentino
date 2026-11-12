@@ -1,14 +1,10 @@
 #filtros
 from clubes import seleccionar_club_por_id, normalizar_nombre_club
-from validaciones import leer_entero, leer_entero_no_negativo, leer_decimal_no_negativo
 
 
 def filtrar_jugadores_por_edad(jugadores):
-    edad_minima = leer_entero_no_negativo("Ingrese la edad minima: ")
-    edad_maxima = leer_entero_no_negativo("Ingrese la edad maxima: ")
-    while edad_maxima < edad_minima:
-        print("La edad maxima no puede ser menor que la minima.")
-        edad_maxima = leer_entero_no_negativo("Ingrese la edad maxima: ")
+    edad_minima = int(input("Ingrese la edad minima: "))
+    edad_maxima = int(input("Ingrese la edad maxima: "))
 
     encontrados = []
 
@@ -43,11 +39,8 @@ def filtrar_jugadores_por_club(jugadores, liga_argentina, primera_nacional):
 
     return encontrados
 def filtrar_jugadores_por_valor(jugadores):
-    valor_minimo = leer_decimal_no_negativo("Ingrese el valor de mercado minimo: ")
-    valor_maximo = leer_decimal_no_negativo("Ingrese el valor de mercado maximo: ")
-    while valor_maximo < valor_minimo:
-        print("El valor maximo no puede ser menor que el minimo.")
-        valor_maximo = leer_decimal_no_negativo("Ingrese el valor de mercado maximo: ")
+    valor_minimo = float(input("Ingrese el valor de mercado minimo: "))
+    valor_maximo = float(input("Ingrese el valor de mercado maximo: "))
 
     encontrados = []
 
@@ -79,7 +72,7 @@ def menu_filtros(jugadores, liga_argentina, primera_nacional):
         print("[3] Filtrar jugadores por valor")
         print("="*45)
 
-        opcion = leer_entero("Elija una opcion segun su numero: ")
+        opcion = int(input("Elija una opción segun su numero: "))
 
         if opcion == 1:
             filtrar_jugadores_por_edad(jugadores)

@@ -1,6 +1,5 @@
 #matrices
 from clubes import seleccionar_club_por_id, normalizar_nombre_club
-from validaciones import leer_entero
 
 
 def crear_matriz_planteles(jugadores, liga_argentina, primera_nacional):
@@ -8,7 +7,7 @@ def crear_matriz_planteles(jugadores, liga_argentina, primera_nacional):
 
     club = seleccionar_club_por_id(liga_argentina, primera_nacional)
     if club is None:
-        return []
+        return
 
     nombre_club = normalizar_nombre_club(club["club"])
     matriz = []
@@ -42,7 +41,7 @@ def crear_matriz_jugadores(jugadores):
     print("1. Liga Profesional")
     print("2. Primera Nacional")
 
-    opcion = leer_entero("Ingrese la liga que desea consultar: ")
+    opcion = int(input("Ingrese la liga que desea consultar: "))
 
     if opcion == 1:
         categoria_buscada = "liga profesional"
@@ -52,7 +51,6 @@ def crear_matriz_jugadores(jugadores):
 
     else:
         print("Opcion incorrecta")
-        return []
 
     matriz = []
 
@@ -105,7 +103,7 @@ def menu_matrices(jugadores, liga_argentina, primera_nacional):
         print("[2] Mostrar plantel de un club")
         print("="*45)
 
-        opcion = leer_entero("Elija una opcion segun su numero: ")
+        opcion = int(input("Elija una opción segun su numero: "))
 
         if opcion == 1:
             matriz = crear_matriz_jugadores(jugadores)
