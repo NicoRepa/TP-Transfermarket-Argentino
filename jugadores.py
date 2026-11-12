@@ -7,7 +7,7 @@ def obtener_jugador_por_id(jugadores, id_buscar):
     jugador_encontrado = None
 
     for jugador in jugadores:
-        if jugador["id"] == id_buscar:
+        if str(jugador["id"]) == str(id_buscar):
             jugador_encontrado = jugador
 
     if jugador_encontrado is None:
