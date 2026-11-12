@@ -1,5 +1,7 @@
 #crud jugadores
 from clubes import seleccionar_club_por_id
+from validaciones import leer_entero, leer_entero_no_negativo, leer_edad
+from validaciones import leer_decimal_no_negativo, leer_texto_no_vacio, leer_nombre_jugador
 
 
 def obtener_jugador_por_id(jugadores, id_buscar):
@@ -7,7 +9,10 @@ def obtener_jugador_por_id(jugadores, id_buscar):
     jugador_encontrado = None
 
     for jugador in jugadores:
-        if jugador["id"] == id_buscar:
+        if str(jugador["id"]) == str(id_buscar).strip():
+            if jugador_encontrado is not None:
+                print("Hay mas de un jugador con ese ID, revise los datos")
+                return None
             jugador_encontrado = jugador
 
     if jugador_encontrado is None:
@@ -23,17 +28,9 @@ def crear_jugador(jugadores, liga_argentina, primera_nacional):
         if jugador["id"] >= id_nuevo:
             id_nuevo = jugador["id"] + 1
     
-    nombre_jugador = input("ingrese nombre del jugador: ")
-    while nombre_jugador == "":
-        print("el nombre no puede estar vacio.")
-        nombre_jugador = input("ingrese nombre del jugador: ")
-        
-    edad = int(input("ingrese edad del jugador: "))
-    while edad < 15 or edad > 45:
-        print("La edad debe ser mayor a 15 y menor a 45.")
-        edad = int(input("ingrese edad del jugador: "))
-        
-    posicion = input("ingrese la posicion donde juega: ")
+    nombre_jugador = leer_nombre_jugador("Ingrese nombre del jugador: ")
+    edad = leer_edad("Ingrese edad del jugador: ")
+    posicion = leer_texto_no_vacio("Ingrese la posicion donde juega: ")
     
     print("Seleccione el club del jugador:")
     club = seleccionar_club_por_id(liga_argentina, primera_nacional)
@@ -45,8 +42,8 @@ def crear_jugador(jugadores, liga_argentina, primera_nacional):
     else:
         categoria = "Primera Nacional"
 
-    valor_mercado = float(input("ingrese el valor del jugador: "))
-    goles = int(input("ingrese la cantidad de goles que tiene: "))
+    valor_mercado = leer_decimal_no_negativo("Ingrese el valor del jugador: ")
+    goles = leer_entero_no_negativo("Ingrese la cantidad de goles que tiene: ")
 
     nuevo_jugador = {
         "id": id_nuevo,
@@ -83,19 +80,14 @@ def editar_jugador(jugadores, liga_argentina, primera_nacional):
     opcion = input("ingrese la opcion que desea editar: ")
 
     if opcion == "1":
-        jugador_encontrado["nombre"] = input("Ingrese el nuevo nombre: ")
+        jugador_encontrado["nombre"] = leer_nombre_jugador("Ingrese el nuevo nombre: ")
 
     elif opcion == "2":
-        edad = int(input("Ingrese la nueva edad: "))
-
-        if edad < 15 or edad > 45:
-            print("La edad debe ser mayor a 15 y menor a 45.")
-        
-
+        edad = leer_edad("Ingrese la nueva edad: ")
         jugador_encontrado["edad"] = edad
 
     elif opcion == "3":
-        jugador_encontrado["posicion"] = input("Ingrese la nueva posición: ")
+        jugador_encontrado["posicion"] = leer_texto_no_vacio("Ingrese la nueva posicion: ")
 
     elif opcion == "4":
         print("Seleccione el nuevo club:")
@@ -112,13 +104,14 @@ def editar_jugador(jugadores, liga_argentina, primera_nacional):
         jugador_encontrado["categoria"] = categoria
 
     elif opcion == "5":
-        jugador_encontrado["valor_mercado"] = float(input("Ingrese el nuevo valor de mercado: "))
+        jugador_encontrado["valor_mercado"] = leer_decimal_no_negativo("Ingrese el nuevo valor de mercado: ")
 
     elif opcion == "6":
-        jugador_encontrado["goles"] = int(input("Ingrese la nueva cantidad de goles: "))
+        jugador_encontrado["goles"] = leer_entero_no_negativo("Ingrese la nueva cantidad de goles: ")
 
     else:
         print("Opción inválida.")
+        return
 
     print("Jugador modificado correctamente")
 
@@ -176,7 +169,7 @@ def menu_jugadores(jugadores, liga_argentina, primera_nacional):
         print("[4] Buscar jugador por ID")
         print("[5] Listar jugadores")
 
-        opcion = int(input("Ingrese una opcion segun su numero: "))
+        opcion = leer_entero("Ingrese una opcion segun su numero: ")
 
         if opcion == 1:
             crear_jugador(jugadores, liga_argentina, primera_nacional)

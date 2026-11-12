@@ -1,6 +1,5 @@
 # crud clubes
-import json
-import os
+from validaciones import leer_entero, leer_entero_no_negativo, leer_decimal_no_negativo
 
 
 def normalizar_nombre_club(nombre):
@@ -52,13 +51,13 @@ def crear_club(liga_argentina, primera_nacional):
 
     # Verificar si el club ya existe en Liga Profesional
     for club in liga_argentina:
-        if nombre.lower() == club["club"].lower():
+        if normalizar_nombre_club(nombre) == normalizar_nombre_club(club["club"]):
             print("El club ya existe")
             return
 
     # Verificar si el club ya existe en Primera Nacional
     for club in primera_nacional:
-        if nombre.lower() == club["club"].lower():
+        if normalizar_nombre_club(nombre) == normalizar_nombre_club(club["club"]):
             print("El club ya existe")
             return
 
@@ -99,7 +98,7 @@ def crear_club(liga_argentina, primera_nacional):
     print("El ultimo ID de la lista es:", lista[-1]["id"])
 
 
-def editar_club(liga_argentina, primera_nacional):
+def editar_club(liga_argentina, primera_nacional, jugadores, clasicos):
     """Permite modificar los datos de un club existente."""
 
     division = input("Ingrese la division (1: Liga Profesional / 2: Primera Nacional): ")
@@ -148,21 +147,30 @@ def editar_club(liga_argentina, primera_nacional):
                 # Verificar que el nuevo nombre no exista
                 for otro_club in liga_argentina:
                     if otro_club != club:
-                        if nuevo_nombre.lower() == otro_club["club"].lower():
+                        if normalizar_nombre_club(nuevo_nombre) == normalizar_nombre_club(otro_club["club"]):
                             print("Ese nombre de club ya existe")
                             return
 
                 for otro_club in primera_nacional:
                     if otro_club != club:
-                        if nuevo_nombre.lower() == otro_club["club"].lower():
+                        if normalizar_nombre_club(nuevo_nombre) == normalizar_nombre_club(otro_club["club"]):
                             print("Ese nombre de club ya existe")
                             return
 
+                nombre_anterior = normalizar_nombre_club(club["club"])
                 club["club"] = nuevo_nombre
+                for jugador in jugadores:
+                    if normalizar_nombre_club(jugador["club_actual"]) == nombre_anterior:
+                        jugador["club_actual"] = nuevo_nombre
+                for par in clasicos:
+                    if normalizar_nombre_club(par["club1"]) == nombre_anterior:
+                        par["club1"] = nuevo_nombre
+                    if normalizar_nombre_club(par["club2"]) == nombre_anterior:
+                        par["club2"] = nuevo_nombre
 
             elif opcion == "2":
 
-                nuevo_valor = float(input("Ingrese el nuevo valor del plantel: "))
+                nuevo_valor = leer_decimal_no_negativo("Ingrese el nuevo valor del plantel: ")
 
                 if nuevo_valor < 0:
                     print("El valor no puede ser negativo")
@@ -172,7 +180,7 @@ def editar_club(liga_argentina, primera_nacional):
 
             elif opcion == "3":
 
-                nuevos_titulos = int(input("Ingrese los nuevos titulos nacionales: "))
+                nuevos_titulos = leer_entero_no_negativo("Ingrese los nuevos titulos nacionales: ")
 
                 if nuevos_titulos < 0:
                     print("La cantidad no puede ser negativa")
@@ -182,7 +190,7 @@ def editar_club(liga_argentina, primera_nacional):
 
             elif opcion == "4":
 
-                nuevos_titulos = int(input("Ingrese los nuevos titulos internacionales: "))
+                nuevos_titulos = leer_entero_no_negativo("Ingrese los nuevos titulos internacionales: ")
 
                 if nuevos_titulos < 0:
                     print("La cantidad no puede ser negativa")
@@ -192,7 +200,7 @@ def editar_club(liga_argentina, primera_nacional):
 
             elif opcion == "5":
 
-                nuevas_libertadores = int(input("Ingrese la cantidad de Copas Libertadores: "))
+                nuevas_libertadores = leer_entero_no_negativo("Ingrese la cantidad de Copas Libertadores: ")
 
                 if nuevas_libertadores < 0:
                     print("La cantidad no puede ser negativa")
@@ -202,7 +210,7 @@ def editar_club(liga_argentina, primera_nacional):
 
             elif opcion == "6":
 
-                nuevas_sudamericanas = int(input("Ingrese la cantidad de Copas Sudamericanas: "))
+                nuevas_sudamericanas = leer_entero_no_negativo("Ingrese la cantidad de Copas Sudamericanas: ")
 
                 if nuevas_sudamericanas < 0:
                     print("La cantidad no puede ser negativa.")
@@ -212,7 +220,7 @@ def editar_club(liga_argentina, primera_nacional):
 
             elif opcion == "7":
 
-                nuevos_mundiales = int(input("Ingrese la cantidad de Mundiales/Intercontinentales: "))
+                nuevos_mundiales = leer_entero_no_negativo("Ingrese la cantidad de Mundiales/Intercontinentales: ")
 
                 if nuevos_mundiales < 0:
                     print("La cantidad no puede ser negativa")
@@ -222,7 +230,7 @@ def editar_club(liga_argentina, primera_nacional):
 
             elif opcion == "8":
 
-                nuevos_totales = int(input("Ingrese la cantidad de títulos totales: "))
+                nuevos_totales = leer_entero_no_negativo("Ingrese la cantidad de títulos totales: ")
 
                 if nuevos_totales < 0:
                     print("La cantidad no puede ser negativa")
@@ -232,7 +240,7 @@ def editar_club(liga_argentina, primera_nacional):
 
             elif opcion == "9":
 
-                nuevos_descensos = int(input("Ingrese la cantidad de descensos: "))
+                nuevos_descensos = leer_entero_no_negativo("Ingrese la cantidad de descensos: ")
 
                 if nuevos_descensos < 0:
                     print("La cantidad no puede ser negativa")
@@ -251,7 +259,7 @@ def editar_club(liga_argentina, primera_nacional):
         print("No se encontro ningun club con ese ID")
 
 
-def eliminar_club(liga_argentina, primera_nacional):
+def eliminar_club(liga_argentina, primera_nacional, jugadores, clasicos):
     """Elimina un club existente de la lista correspondiente."""
 
     division = input("Ingrese la división (1: Liga Profesional / 2: Primera Nacional): ")
@@ -278,6 +286,15 @@ def eliminar_club(liga_argentina, primera_nacional):
 
             print("Club encontrado:", club["club"])
 
+            for jugador in jugadores:
+                if normalizar_nombre_club(jugador["club_actual"]) == normalizar_nombre_club(club["club"]):
+                    print("No se puede eliminar un club que tiene jugadores, transfieralos o eliminelos primero")
+                    return
+
+            for par in clasicos.copy():
+                if par["club1"] == club["club"] or par["club2"] == club["club"]:
+                    clasicos.remove(par)
+
             lista.remove(club)
 
             print("Club eliminado correctamente")
@@ -287,29 +304,25 @@ def eliminar_club(liga_argentina, primera_nacional):
         print("No se encontro ningun club con ese ID")
 
 
-def buscar_clubes(liga_argentina, primera_nacional):
+def obtener_clasico_rival(nombre_completo, clasicos):
+    """Devuelve el rival del club o None si no hay un clasico registrado"""
+    for par in clasicos:
+        if par["club1"] == nombre_completo:
+            return par["club2"]
+        elif par["club2"] == nombre_completo:
+            return par["club1"]
+    return None
+
+
+def buscar_clubes(liga_argentina, primera_nacional, clasicos):
     """Busca un club por division e ID y muestra sus datos y su clasico rival"""
     club = seleccionar_club_por_id(liga_argentina, primera_nacional)
     if club is None:
         return
 
-    # Función auxiliar para leer clasicos.json y obtener el rival
-    def obtener_clasico_rival(nombre_completo):
-        directorio = os.path.dirname(__file__)
-        ruta_clasicos = os.path.join(directorio, "clasicos.json")
-        try:
-            with open(ruta_clasicos, "r", encoding="utf-8") as f:
-                lista_clasicos = json.load(f)
-            for c in lista_clasicos:
-                if c.get("club1") == nombre_completo:
-                    return c.get("club2")
-                elif c.get("club2") == nombre_completo:
-                    return c.get("club1")
-        except (FileNotFoundError, json.JSONDecodeError):
-            pass
-        return "Sin clasico registrado"
-
-    rival = obtener_clasico_rival(club["club"])
+    rival = obtener_clasico_rival(club["club"], clasicos)
+    if rival is None:
+        rival = "Sin clasico registrado"
 
     print("\n--- INFORMACIÓN DEL CLUB ---")
     for clave, valor in club.items():
@@ -318,21 +331,31 @@ def buscar_clubes(liga_argentina, primera_nacional):
     print("-" * 30)
 
 
-def listar_clubes(liga_argentina, primera_nacional):
+def listar_clubes(liga_argentina, primera_nacional, jugadores):
     """Muestra por consola todos los clubes de Liga Profesional y Primera Nacional"""
 
     print("\n=== LIGA PROFESIONAL ===")
 
     for club in liga_argentina:
 
-        print(club["id"],"-",club["club"])
+        cantidad = 0
+        for jugador in jugadores:
+            if normalizar_nombre_club(jugador["club_actual"]) == normalizar_nombre_club(club["club"]):
+                cantidad += 1
+        print(club["id"], "-", club["club"], "-", cantidad, "jugadores")
 
     print("\n=== PRIMERA NACIONAL ===")
 
     for club in primera_nacional:
 
-        print(club["id"],"-",club["club"])
-def comparar_clasicos(liga_argentina, primera_nacional):
+        cantidad = 0
+        for jugador in jugadores:
+            if normalizar_nombre_club(jugador["club_actual"]) == normalizar_nombre_club(club["club"]):
+                cantidad += 1
+        print(club["id"], "-", club["club"], "-", cantidad, "jugadores")
+
+
+def comparar_clasicos(liga_argentina, primera_nacional, clasicos):
     """Selecciona un club por division e ID y lo compara con su clasico rival"""
     club_1 = seleccionar_club_por_id(liga_argentina, primera_nacional)
     if club_1 is None:
@@ -340,24 +363,7 @@ def comparar_clasicos(liga_argentina, primera_nacional):
 
     todos_los_clubes = liga_argentina + primera_nacional
 
-    # 2. Leer clasicos.json para obtener la pareja/clasico
-    directorio = os.path.dirname(__file__)
-    ruta_clasicos = os.path.join(directorio, "clasicos.json")
-    nombre_rival = None
-    
-    try:
-        with open(ruta_clasicos, "r", encoding="utf-8") as f:
-            lista_clasicos = json.load(f)
-            
-        for par in lista_clasicos:
-            if par.get("club1") == club_1["club"]:
-                nombre_rival = par.get("club2")
-                break
-            elif par.get("club2") == club_1["club"]:
-                nombre_rival = par.get("club1")
-                break
-    except (FileNotFoundError, json.JSONDecodeError):
-        pass
+    nombre_rival = obtener_clasico_rival(club_1["club"], clasicos)
 
     if not nombre_rival:
         print(f"\nEl club '{club_1['club']}' no tiene un clasico registrado en clasicos.json")
@@ -390,8 +396,13 @@ def comparar_clasicos(liga_argentina, primera_nacional):
         print(f"   - {club_2['club']}: {val2}")
         
         # Si la clave representa un valor numerico comparable (como titulos o valor de plantel), mostramos quien gana
-        if isinstance(val1, (int, float)) and isinstance(val2, (int, float)) and clave != "id":
-            if val1 > val2:
+        if clave != "id" and clave != "club":
+            if clave == "descensos" and val1 != val2:
+                if val1 < val2:
+                    print(f"   --> Menos descensos: {club_1['club']}")
+                else:
+                    print(f"   --> Menos descensos: {club_2['club']}")
+            elif val1 > val2:
                 print(f"   --> Vencedor: {club_1['club']}")
             elif val2 > val1:
                 print(f"   --> Vencedor: {club_2['club']}")
@@ -399,7 +410,7 @@ def comparar_clasicos(liga_argentina, primera_nacional):
                 print("   --> Empate")
         print("-" * 60)
 # Menu de clubes
-def menu_clubes(liga_argentina, primera_nacional):
+def menu_clubes(liga_argentina, primera_nacional, jugadores, clasicos):
     """Menu para hacer consultas de clubes"""
 
     continuar = True
@@ -417,25 +428,25 @@ def menu_clubes(liga_argentina, primera_nacional):
         print("[6] Comparar clásicos")
         print("="*45)
 
-        opcion = int(input("Elija una opcion segun su numero: "))
+        opcion = leer_entero("Elija una opcion segun su numero: ")
 
         if opcion == 1:
             crear_club(liga_argentina, primera_nacional)
 
         elif opcion == 2:
-            editar_club(liga_argentina, primera_nacional)
+            editar_club(liga_argentina, primera_nacional, jugadores, clasicos)
 
         elif opcion == 3:
-            eliminar_club(liga_argentina, primera_nacional)
+            eliminar_club(liga_argentina, primera_nacional, jugadores, clasicos)
 
         elif opcion == 4:
-            buscar_clubes(liga_argentina, primera_nacional)
+            buscar_clubes(liga_argentina, primera_nacional, clasicos)
 
         elif opcion == 5:
-            listar_clubes(liga_argentina, primera_nacional)
+            listar_clubes(liga_argentina, primera_nacional, jugadores)
 
         elif opcion == 6:
-            comparar_clasicos(liga_argentina, primera_nacional)
+            comparar_clasicos(liga_argentina, primera_nacional, clasicos)
 
         elif opcion == 0:
             continuar = False
